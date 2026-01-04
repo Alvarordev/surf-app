@@ -1,7 +1,7 @@
-import { Waves } from 'lucide-react'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { useState } from 'react'
-import { Map, Marker } from 'react-map-gl/mapbox'
+import { Map } from 'react-map-gl/mapbox'
+import { SurfMarker } from './SurfMarker'
 
 const LIMA_INITIAL_VIEW = {
   longitude: -77.035,
@@ -22,22 +22,12 @@ export default function MapaLima() {
         mapStyle="mapbox://styles/alvarordev/cmjxtvirk000k01s59fed7o30"
         mapboxAccessToken={MAPBOX_TOKEN}
       >
-        <Marker
-          longitude={-77.03624604509204}
-          latitude={-12.12961492494947}
-          anchor="center"
-        >
-          <div className="group relative flex cursor-pointer flex-col items-center">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-500 font-bold text-white shadow-lg border-[1.5px] border-[#18181a] transition-all group-hover:scale-110">
-              1
-            </div>
-
-            <div className="absolute top-full mt-1 flex items-center rounded-full bg-indigo-500/90 px-1.5 text-[10px] text-white backdrop-blur-sm border border-white/10 whitespace-nowrap">
-              <Waves size={10} className="mr-1" />
-              <span>1.2m</span>
-            </div>
-          </div>
-        </Marker>
+        <SurfMarker
+          id="la-pampilla"
+          label="1"
+          longitude={-77.0392}
+          latitude={-12.1311}
+        />
       </Map>
     </div>
   )
