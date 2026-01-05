@@ -2,6 +2,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { useState } from 'react'
 import { Map } from 'react-map-gl/mapbox'
 import { SurfMarker } from './SurfMarker'
+import { SURF_SPOTS } from '../data/spots'
 
 const LIMA_INITIAL_VIEW = {
   longitude: -77.035,
@@ -22,12 +23,15 @@ export default function MapaLima() {
         mapStyle="mapbox://styles/alvarordev/cmjxtvirk000k01s59fed7o30"
         mapboxAccessToken={MAPBOX_TOKEN}
       >
-        <SurfMarker
-          id="la-pampilla"
-          label="1"
-          longitude={-77.0392}
-          latitude={-12.1311}
-        />
+        {SURF_SPOTS.map((spot) => (
+          <SurfMarker
+            key={spot.id}
+            id={spot.id}
+            label={spot.label}
+            longitude={spot.lng}
+            latitude={spot.lat}
+          />
+        ))}
       </Map>
     </div>
   )

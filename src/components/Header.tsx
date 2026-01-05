@@ -2,7 +2,7 @@ import { Sun } from 'lucide-react'
 
 export default function Header() {
   return (
-    <header className="h-15 flex items-center justify-between px-4 bg-[#18181a] border-b border-gray-800 text-white shadow-lg">
+    <header className="h-15 flex items-center justify-between px-4 bg-background border-b border-gray-800 text-white shadow-lg">
       <div>
         <h1 className="text-sm font-bold leading-none">Surfing Spots</h1>
         <p className="text-[10px] text-gray-500 font-bold mt-1 uppercase tracking-wider">

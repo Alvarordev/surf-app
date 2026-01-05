@@ -1,19 +1,35 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+:root {
+  --background: #060606;
+  --foreground: #ffffff;
+  --primary: #646dea;
+  --background-accent: #171719;
+  --foreground-accent: #727377;
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-background-accent: var(--background-accent);
+  --color-foreground-accent: var(--foreground-accent);
+}
 
 body {
   @apply m-0;
-  background-color: #18181a;
-  color: white;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 .no-scrollbar::-webkit-scrollbar {
