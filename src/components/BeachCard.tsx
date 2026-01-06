@@ -8,6 +8,7 @@ interface BeachCardProps {
   crowd: string
   image: string
   isSelected?: boolean
+  onClick?: () => void
 }
 
 export default function BeachCard({
@@ -17,9 +18,11 @@ export default function BeachCard({
   crowd,
   image,
   isSelected,
+  onClick,
 }: BeachCardProps) {
   return (
     <div
+      onClick={onClick}
       className={`flex gap-3 p-3 rounded-xl bg-background-accent border-2 border-background-accent ${
         isSelected && ' border-primary/50'
       } transition-all cursor-pointer group`}
@@ -49,7 +52,7 @@ export default function BeachCard({
       <div className="flex flex-col gap-2 flex-1 py-0.5">
         <div className="flex justify-between items-start">
           <h3 className="text-medium font-bold text-white group-hover:text-primary transition-colors">
-            {name}
+            Playa {name}
           </h3>
         </div>
 

@@ -1,8 +1,13 @@
 import { Search, SlidersHorizontal, Users, Waves } from 'lucide-react'
 import BeachCard from './BeachCard'
 import { SURF_SPOTS } from '@/features/map/data/spots'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { setSelectedBeach } from '@/features/surf-details/surfSlice'
 
 export default function Sidebar() {
+  const dispatch = useAppDispatch()
+  const selectedBeachId = useAppSelector((state) => state.surf.selectedBeachId)
+
   return (
     <aside className="w-100 border-r border-gray-800 bg-background flex flex-col h-full">
       <div className="p-4 space-y-4">
@@ -41,8 +46,9 @@ export default function Sidebar() {
       <div className="px-4 py-2">
         <h2 className="text-xl font-bold text-white">Costa Verde</h2>
         <p className="text-xs text-gray-400 mt-1 leading-relaxed">
-          Usually consistent waves. Good for all levels depending on the
-          specific break.
+          La bahía más constante de Lima. Ofrece desde picos escuela hasta
+          secciones sólidas y tubulares. Recibe swells del Sur con
+          perfección.
         </p>
       </div>
 
@@ -64,7 +70,8 @@ export default function Sidebar() {
             rating={spot.rating}
             crowd={spot.crowd}
             image={spot.image}
-            isSelected={spot.id === 'pampilla'}
+            isSelected={spot.id === selectedBeachId}
+            onClick={() => dispatch(setSelectedBeach(spot.id))}
           />
         ))}
       </div>

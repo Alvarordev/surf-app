@@ -58,7 +58,8 @@ const surfSlice = createSlice({
   initialState,
   reducers: {
     setSelectedBeach: (state, action) => {
-      state.selectedBeachId = action.payload
+      state.selectedBeachId =
+        state.selectedBeachId === action.payload ? null : action.payload
     },
   },
   extraReducers: (builder) => {

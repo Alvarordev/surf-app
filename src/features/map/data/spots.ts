@@ -18,8 +18,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.04436400350683,
     zoneId: 'costa-verde',
     label: '1',
-    image:
-      'https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=400&h=300&fit=crop',
+    image: './src/assets/puntaroquitas.png',
     rating: 4,
     crowd: 'Low',
   },
@@ -30,8 +29,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.04065382892229,
     zoneId: 'costa-verde',
     label: '2',
-    image:
-      'https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=400&h=300&fit=crop',
+    image: './src/assets/pampilla.webp',
     rating: 4,
     crowd: 'Low',
   },
@@ -42,8 +40,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.0390385583773,
     zoneId: 'costa-verde',
     label: '3',
-    image:
-      'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=400&h=300&fit=crop',
+    image: './src/assets/waikiki.jpg',
     rating: 4,
     crowd: 'Low',
   },
@@ -54,8 +51,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.03700309696961,
     zoneId: 'costa-verde',
     label: '4',
-    image:
-      'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=400&h=300&fit=crop',
+    image: './src/assets/makaha.jpg',
     rating: 3,
     crowd: 'Med',
   },
@@ -66,8 +62,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.03436112363295,
     zoneId: 'costa-verde',
     label: '5',
-    image:
-      'https://images.unsplash.com/photo-1471922694854-ff1b63b20054?w=400&h=300&fit=crop',
+    image: './src/assets/redondo.webp',
     rating: 3,
     crowd: 'Low',
   },
@@ -78,8 +73,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.02766559183499,
     zoneId: 'costa-verde',
     label: '6',
-    image:
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
+    image: './src/assets/barranquito.png',
     rating: 5,
     crowd: 'High',
   },
@@ -90,8 +84,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.02646796694538,
     zoneId: 'costa-verde',
     label: '7',
-    image:
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
+    image: './src/assets/los-pavos.jpg',
     rating: 4,
     crowd: 'Med',
   },
@@ -102,8 +95,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.02638216509918,
     zoneId: 'costa-verde',
     label: '8',
-    image:
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
+    image: './src/assets/los-yuyos.jpg',
     rating: 5,
     crowd: 'High',
   },
@@ -114,8 +106,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.02740290015365,
     zoneId: 'costa-verde',
     label: '9',
-    image:
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
+    image: './src/assets/sombrillas.jpg',
     rating: 4,
     crowd: 'Med',
   },
