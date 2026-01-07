@@ -1,6 +1,13 @@
+import { useAppSelector } from '@/store/hooks'
 import { Sun } from 'lucide-react'
 
 export default function Header() {
+  const zones = useAppSelector((state) => state.surf.zones)
+  console.log('Zones:', zones)
+  const costaVerdeData = zones?.['costa-verde']?.data
+  console.log('Costa Verde Data:', costaVerdeData)
+
+
   return (
     <header className="h-15 flex items-center justify-between px-4 bg-background border-b border-gray-800 text-white shadow-lg">
       <div>

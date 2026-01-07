@@ -1,5 +1,5 @@
 import { MOCK_STORMGLASS_RESPONSE } from '@/api/mockData'
-import { fetchSurfData } from '@/api/stormGlass'
+import { fetchSurfData, fetchSolarData } from '@/api/stormGlass'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 export interface SurfData {
@@ -21,7 +21,7 @@ const initialState: SurfState = {
   error: null,
 }
 
-const USE_MOCK = true
+const USE_MOCK = false
 
 export const getConditionsByZone = createAsyncThunk(
   'surf/getConditionsByZone',
@@ -48,8 +48,27 @@ export const getConditionsByZone = createAsyncThunk(
     console.log(
       `🌊 Fetching new surf data for zone [${zoneId}] from StormGlass API`,
     )
-    const response = await fetchSurfData(lat, lng)
-    return { zoneId, data: response, fromCache: false }
+    const [surfData, solarData] = await Promise.all([
+      fetchSurfData(lat, lng),
+      fetchSolarData(lat, lng),
+    ])
+
+    const hoursObj: Record<string, any> = {}
+
+    surfData.hours.forEach((hour: any, index: number) => {
+      const timeKey = hour.time 
+      hoursObj[timeKey] = {
+        ...hour,
+        uvIndex: solarData.hours?.[index]?.uvIndex || null,
+      }
+    })
+
+    const integratedData = {
+      ...surfData,
+      hours: hoursObj,
+    }
+
+    return { zoneId, data: integratedData, fromCache: false }
   },
 )
 
@@ -61,6 +80,9 @@ const surfSlice = createSlice({
       state.selectedBeachId =
         state.selectedBeachId === action.payload ? null : action.payload
     },
+    clearCache: (state) => {
+      state.zones = {}
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -84,6 +106,6 @@ const surfSlice = createSlice({
   },
 })
 
-export const { setSelectedBeach } = surfSlice.actions
+export const { setSelectedBeach, clearCache } = surfSlice.actions
 
 export default surfSlice.reducer

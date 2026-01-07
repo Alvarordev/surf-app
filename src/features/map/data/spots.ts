@@ -7,7 +7,8 @@ export interface SurfSpot {
   label: string
   image: string
   rating: number
-  crowd: string
+  difficulty: string
+  exposure: number
 }
 
 export const SURF_SPOTS: SurfSpot[] = [
@@ -20,7 +21,8 @@ export const SURF_SPOTS: SurfSpot[] = [
     label: '1',
     image: './src/assets/puntaroquitas.png',
     rating: 4,
-    crowd: 'Low',
+    difficulty: 'Intermedio',
+    exposure: 1.15
   },
   {
     id: 'pampilla',
@@ -31,7 +33,8 @@ export const SURF_SPOTS: SurfSpot[] = [
     label: '2',
     image: './src/assets/pampilla.webp',
     rating: 4,
-    crowd: 'Low',
+    difficulty: 'Intermedio',
+    exposure: 1.10
   },
   {
     id: 'waikiki',
@@ -42,7 +45,8 @@ export const SURF_SPOTS: SurfSpot[] = [
     label: '3',
     image: './src/assets/waikiki.jpg',
     rating: 4,
-    crowd: 'Low',
+    difficulty: 'Principiante',
+    exposure: 0.85
   },
   {
     id: 'makaha',
@@ -53,7 +57,8 @@ export const SURF_SPOTS: SurfSpot[] = [
     label: '4',
     image: './src/assets/makaha.jpg',
     rating: 3,
-    crowd: 'Med',
+    difficulty: 'Principiante',
+    exposure: 0.80
   },
   {
     id: 'redondo',
@@ -64,7 +69,8 @@ export const SURF_SPOTS: SurfSpot[] = [
     label: '5',
     image: './src/assets/redondo.webp',
     rating: 3,
-    crowd: 'Low',
+    difficulty: 'Principiante',
+    exposure: 0.90
   },
   {
     id: 'barranquito',
@@ -75,7 +81,8 @@ export const SURF_SPOTS: SurfSpot[] = [
     label: '6',
     image: './src/assets/barranquito.png',
     rating: 5,
-    crowd: 'High',
+    difficulty: 'Intermedio',
+    exposure: 1.05
   },
   {
     id: 'los-pavos',
@@ -86,7 +93,8 @@ export const SURF_SPOTS: SurfSpot[] = [
     label: '7',
     image: './src/assets/los-pavos.jpg',
     rating: 4,
-    crowd: 'Med',
+    difficulty: 'Intermedio',
+    exposure: 0.95
   },
   {
     id: 'los-yuyos',
@@ -97,7 +105,8 @@ export const SURF_SPOTS: SurfSpot[] = [
     label: '8',
     image: './src/assets/los-yuyos.jpg',
     rating: 5,
-    crowd: 'High',
+    difficulty: 'Principiante',
+    exposure: 0.65
   },
   {
     id: 'sombrillas',
@@ -108,7 +117,8 @@ export const SURF_SPOTS: SurfSpot[] = [
     label: '9',
     image: './src/assets/sombrillas.jpg',
     rating: 4,
-    crowd: 'Med',
+    difficulty: 'Principiante',
+    exposure: 0.85
   },
   {
     id: 'triangulo',
@@ -117,10 +127,10 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.02869630534595,
     zoneId: 'costa-verde',
     label: '10',
-    image:
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
     rating: 5,
-    crowd: 'High',
+    difficulty: 'Intermedio',
+    exposure: 1.05
   },
   {
     id: 'pescadores',
@@ -129,10 +139,10 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.0305037256613,
     zoneId: 'costa-verde',
     label: '11',
-    image:
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
     rating: 4,
-    crowd: 'Med',
+    difficulty: 'Intermedio',
+    exposure: 0.90
   },
   {
     id: 'la-herradura',
@@ -141,9 +151,9 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.034172162188,
     zoneId: 'costa-verde',
     label: '12',
-    image:
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
     rating: 5,
-    crowd: 'High',
+    difficulty: 'Experto',
+    exposure: 1.25
   },
 ]

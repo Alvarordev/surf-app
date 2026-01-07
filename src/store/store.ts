@@ -1,38 +1,40 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import surfReducer from '@/features/surf-details/surfSlice'
+
+const persistConfig = {
+  key: 'surf-app-v5',
+  version: 1,
+  storage,
+}
 
 const rootReducer = combineReducers({
   surf: surfReducer,
 })
 
-const loadState = (): any => {
-  try {
-    const serializedState = localStorage.getItem('surf_app_state')
-    if (serializedState === null) return undefined
-    return JSON.parse(serializedState)
-  } catch (err) {
-    return undefined
-  }
-}
-
-const saveState = (state: any) => {
-  try {
-    const serializedState = JSON.stringify(state)
-    localStorage.setItem('surf_app_state', serializedState)
-  } catch {
-  }
-}
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({
-  reducer: rootReducer,
-  preloadedState: loadState(),
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 })
 
-store.subscribe(() => {
-  saveState({
-    surf: store.getState().surf,
-  })
-})
+export const persistor = persistStore(store)
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

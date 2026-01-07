@@ -19,12 +19,14 @@
     "@tanstack/react-router-devtools": "^1.132.0",
     "@tanstack/router-plugin": "^1.132.0",
     "axios": "^1.13.2",
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.545.0",
     "mapbox-gl": "^3.17.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-map-gl": "^8.1.0",
     "react-redux": "^9.2.0",
+    "redux-persist": "^6.0.0",
     "tailwindcss": "^4.0.6"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 import { Search, SlidersHorizontal, Users, Waves } from 'lucide-react'
+import { useState, useMemo } from 'react'
 import BeachCard from './BeachCard'
 import { SURF_SPOTS } from '@/features/map/data/spots'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
@@ -7,6 +8,13 @@ import { setSelectedBeach } from '@/features/surf-details/surfSlice'
 export default function Sidebar() {
   const dispatch = useAppDispatch()
   const selectedBeachId = useAppSelector((state) => state.surf.selectedBeachId)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const filteredSpots = useMemo(() => {
+    return SURF_SPOTS.filter((spot) =>
+      spot.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    )
+  }, [searchTerm])
 
   return (
     <aside className="w-100 border-r border-gray-800 bg-background flex flex-col h-full">
@@ -19,6 +27,8 @@ export default function Sidebar() {
           <input
             type="text"
             placeholder="Search beach name..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full bg-[#232326] border-none rounded-lg py-2.5 pl-10 pr-4 text-sm text-white placeholder-gray-500 focus:ring-1 focus:ring-primary outline-none"
           />
         </div>
@@ -54,7 +64,7 @@ export default function Sidebar() {
 
       <div className="px-4 py-4 flex justify-between items-center">
         <span className="text-sm font-semibold text-white">
-          Spots <span className="text-gray-500 ml-1">12</span>
+          Spots <span className="text-gray-500 ml-1">{filteredSpots.length}</span>
         </span>
         <button className="text-xs text-indigo-400 font-medium">
           Sort by: Popular
@@ -62,18 +72,23 @@ export default function Sidebar() {
       </div>
 
       <div className="flex-1 overflow-y-auto px-4 space-y-3 pb-4">
-        {SURF_SPOTS.map((spot) => (
+        {filteredSpots.map((spot) => (
           <BeachCard
             key={spot.id}
             label={spot.label}
             name={spot.name}
             rating={spot.rating}
-            crowd={spot.crowd}
+            difficulty={spot.difficulty}
             image={spot.image}
             isSelected={spot.id === selectedBeachId}
             onClick={() => dispatch(setSelectedBeach(spot.id))}
           />
         ))}
+        {filteredSpots.length === 0 && (
+          <p className="text-sm text-gray-500 text-center mt-10">
+            No se encontraron playas que coincidan con "{searchTerm}"
+          </p>
+        )}
       </div>
     </aside>
   )

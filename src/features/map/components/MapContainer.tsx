@@ -1,10 +1,12 @@
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useMemo } from 'react'
 import { Map, type MapRef } from 'react-map-gl/mapbox'
 import { SurfMarker } from './SurfMarker'
 import { SURF_SPOTS } from '../data/spots'
-import { useAppSelector } from '@/store/hooks'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import BeachDetails from './BeachDetails'
+import { SURF_ZONES } from '../data/zones'
+import { getConditionsByZone } from '@/features/surf-details/surfSlice'
 
 const LIMA_INITIAL_VIEW = {
   longitude: -77.035,
@@ -18,6 +20,38 @@ export default function MapaLima() {
   const mapRef = useRef<MapRef>(null)
   const [viewState, setViewState] = useState(LIMA_INITIAL_VIEW)
   const selectedBeachId = useAppSelector((state) => state.surf.selectedBeachId)
+  const dispatch = useAppDispatch()
+
+  const selectedBeach = useMemo(
+    () => SURF_SPOTS.find((s) => s.id === selectedBeachId),
+    [selectedBeachId],
+  )
+
+  const zone = useMemo(() => {
+    if (!selectedBeach) return SURF_ZONES.COSTA_VERDE 
+    return (
+      Object.values(SURF_ZONES).find((z) => z.id === selectedBeach.zoneId) ||
+      SURF_ZONES.COSTA_VERDE
+    )
+  }, [selectedBeach])
+
+  const zones = useAppSelector((state) => state.surf.zones)
+  
+  const conditions = zones?.[zone.id]?.data?.hours[0]
+
+  console.log('Current Conditions:', conditions)
+
+  useEffect(() => {
+    if (zone) {
+      dispatch(
+        getConditionsByZone({
+          zoneId: zone.id,
+          lat: zone.center.lat,
+          lng: zone.center.lng,
+        }),
+      )
+    }
+  }, [dispatch, zone])
 
   useEffect(() => {
     if (selectedBeachId && mapRef.current) {
@@ -34,7 +68,7 @@ export default function MapaLima() {
   }, [selectedBeachId])
 
   return (
-    <div style={{ width: '100%', height: '100%' }} className='relative'>
+    <div style={{ width: '100%', height: '100%' }} className="relative">
       <Map
         ref={mapRef}
         {...viewState}
@@ -53,7 +87,12 @@ export default function MapaLima() {
         ))}
       </Map>
 
-      {selectedBeachId != null && <BeachDetails beachId={selectedBeachId} />}
+      {selectedBeachId != null && (
+        <BeachDetails
+          beachId={selectedBeachId}
+          currentConditions={conditions}
+        />
+      )}
     </div>
   )
 }

@@ -8,10 +8,15 @@ import {
   Timer,
   Droplets,
 } from 'lucide-react'
-import { MOCK_STORMGLASS_RESPONSE } from '@/api/mockData'
 import { WavesIcon } from '@/assets/WavesIcon'
 
-export default function BeachDetails({ beachId }: { beachId: string }) {
+export default function BeachDetails({
+  beachId,
+  currentConditions,
+}: {
+  beachId: string
+  currentConditions: any
+}) {
   const [beachData, setBeachData] = useState<SurfSpot | null>(null)
 
   useEffect(() => {
@@ -22,8 +27,6 @@ export default function BeachDetails({ beachId }: { beachId: string }) {
   }, [beachId])
 
   if (!beachData) return null
-
-  const currentConditions = MOCK_STORMGLASS_RESPONSE.hours[0]
 
   return (
     <div className="absolute bottom-0 left-0 right-0 w-full pt-16 pb-12 px-6 bg-linear-to-t from-black/90 via-black/40 to-transparent flex items-end justify-center pointer-events-none">
@@ -63,7 +66,7 @@ export default function BeachDetails({ beachId }: { beachId: string }) {
                 </span>
               </div>
               <p className="text-sm font-black text-slate-800">
-                {currentConditions.waveHeight.sg}m
+                {currentConditions ? `${(currentConditions.waveHeight.sg * beachData.exposure).toFixed(2)}m` : '...'}
               </p>
             </div>
 
@@ -75,7 +78,7 @@ export default function BeachDetails({ beachId }: { beachId: string }) {
                 </span>
               </div>
               <p className="text-sm font-black text-slate-800">
-                {currentConditions.wavePeriod.sg}s
+                {currentConditions ? `${currentConditions.wavePeriod.sg}s` : '...'}
               </p>
             </div>
 
@@ -87,7 +90,7 @@ export default function BeachDetails({ beachId }: { beachId: string }) {
                 </span>
               </div>
               <p className="text-sm font-black text-slate-800">
-                {currentConditions.windSpeed.sg}km/h
+                {currentConditions ? `${(currentConditions.windSpeed.sg * 3.6).toFixed(1)} km/h` : '...'}
               </p>
             </div>
 
@@ -99,7 +102,7 @@ export default function BeachDetails({ beachId }: { beachId: string }) {
                 </span>
               </div>
               <p className="text-sm font-black text-slate-800">
-                {currentConditions.waterTemperature.sg}°
+                {currentConditions ? `${currentConditions.waterTemperature.sg}°` : '...'}
               </p>
             </div>
 
@@ -111,7 +114,7 @@ export default function BeachDetails({ beachId }: { beachId: string }) {
                 </span>
               </div>
               <p className="text-sm font-black text-slate-800">
-                {currentConditions.humidity.sg} %
+                {currentConditions ? `${currentConditions.humidity.sg}%` : '...'}
               </p>
             </div>
           </div>

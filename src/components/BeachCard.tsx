@@ -5,7 +5,7 @@ interface BeachCardProps {
   label: string
   name: string
   rating: number
-  crowd: string
+  difficulty: string
   image: string
   isSelected?: boolean
   onClick?: () => void
@@ -15,7 +15,7 @@ export default function BeachCard({
   label,
   name,
   rating,
-  crowd,
+  difficulty,
   image,
   isSelected,
   onClick,
@@ -78,9 +78,9 @@ export default function BeachCard({
 
           <div className="flex flex-col ">
             <span className="text-xs text-foreground-accent font-bold tracking-wider">
-              Crowd
+              Dificultad
             </span>
-            <span className={`text-xs font-bold`}>{crowd}</span>
+            <span className={`text-xs font-bold`}>{difficulty}</span>
           </div>
         </div>
       </div>
