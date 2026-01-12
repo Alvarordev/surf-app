@@ -1,71 +1,41 @@
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { useEffect, useRef, useState, useMemo } from 'react'
-import { Map, type MapRef } from 'react-map-gl/mapbox'
+import { Map } from 'react-map-gl/mapbox'
 import { SurfMarker } from './SurfMarker'
-import { SURF_SPOTS } from '../data/spots'
-import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import BeachDetails from './BeachDetails'
-import { SURF_ZONES } from '../data/zones'
-import { getConditionsByZone } from '@/features/surf-details/surfSlice'
-
-const LIMA_INITIAL_VIEW = {
-  longitude: -77.035,
-  latitude: -12.146698164476819,
-  zoom: 13,
-}
+import { useMapController } from '../hooks/useMapController'
+import { getBeachStatus, type BeachStatusInfo } from '@/utils/beachStatus'
+import { useMemo } from 'react'
+import { startOfHour, subHours } from 'date-fns'
+import { useAppSelector } from '@/store/hooks'
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN
 
 export default function MapaLima() {
-  const mapRef = useRef<MapRef>(null)
-  const [viewState, setViewState] = useState(LIMA_INITIAL_VIEW)
-  const selectedBeachId = useAppSelector((state) => state.surf.selectedBeachId)
-  const dispatch = useAppDispatch()
-
-  const selectedBeach = useMemo(
-    () => SURF_SPOTS.find((s) => s.id === selectedBeachId),
-    [selectedBeachId],
-  )
-
-  const zone = useMemo(() => {
-    if (!selectedBeach) return SURF_ZONES.COSTA_VERDE 
-    return (
-      Object.values(SURF_ZONES).find((z) => z.id === selectedBeach.zoneId) ||
-      SURF_ZONES.COSTA_VERDE
-    )
-  }, [selectedBeach])
+  const { mapRef, viewState, setViewState, selectedBeach, spots } =
+    useMapController()
 
   const zones = useAppSelector((state) => state.surf.zones)
-  
-  const conditions = zones?.[zone.id]?.data?.hours[0]
 
-  console.log('Current Conditions:', conditions)
+  // Calcular el estado de todas las playas cargadas para mostrar en los marcadores
+  const markersStatus = useMemo(() => {
+    const currentHourISO = startOfHour(subHours(new Date(), 5)).toISOString()
+    const statuses: Record<string, BeachStatusInfo> = {}
 
-  useEffect(() => {
-    if (zone) {
-      dispatch(
-        getConditionsByZone({
-          zoneId: zone.id,
-          lat: zone.center.lat,
-          lng: zone.center.lng,
-        }),
-      )
-    }
-  }, [dispatch, zone])
+    spots.forEach((spot) => {
+      const zoneData = zones[spot.zoneId]
+      const spotData = zoneData?.spots[spot.id]
+      const currentConditions = spotData?.conditions.hours[currentHourISO]
 
-  useEffect(() => {
-    if (selectedBeachId && mapRef.current) {
-      const spot = SURF_SPOTS.find((s) => s.id === selectedBeachId)
-      if (spot) {
-        mapRef.current.flyTo({
-          center: [spot.lng, spot.lat],
-          zoom: 16,
-          duration: 1500,
-          essential: true,
+      if (currentConditions) {
+        statuses[spot.id] = getBeachStatus({
+          data: currentConditions,
+          exposure: spot.exposure,
         })
       }
-    }
-  }, [selectedBeachId])
+    })
+
+    return statuses
+  }, [spots, zones])
 
   return (
     <div style={{ width: '100%', height: '100%' }} className="relative">
@@ -76,23 +46,19 @@ export default function MapaLima() {
         mapStyle="mapbox://styles/alvarordev/cmjxtvirk000k01s59fed7o30"
         mapboxAccessToken={MAPBOX_TOKEN}
       >
-        {SURF_SPOTS.map((spot) => (
+        {spots.map((spot) => (
           <SurfMarker
             key={spot.id}
             id={spot.id}
             label={spot.label}
             longitude={spot.lng}
             latitude={spot.lat}
+            beachStatus={markersStatus[spot.id]}
           />
         ))}
       </Map>
 
-      {selectedBeachId != null && (
-        <BeachDetails
-          beachId={selectedBeachId}
-          currentConditions={conditions}
-        />
-      )}
+      {selectedBeach && <BeachDetails beach={selectedBeach} />}
     </div>
   )
 }

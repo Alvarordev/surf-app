@@ -13,7 +13,7 @@ import storage from 'redux-persist/lib/storage'
 import surfReducer from '@/features/surf-details/surfSlice'
 
 const persistConfig = {
-  key: 'surf-app-v5',
+  key: 'surf-app-v1',
   version: 1,
   storage,
 }

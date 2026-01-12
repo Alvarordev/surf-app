@@ -106,7 +106,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: './src/assets/los-yuyos.jpg',
     rating: 5,
     difficulty: 'Principiante',
-    exposure: 0.65
+    exposure: 0.5
   },
   {
     id: 'sombrillas',
@@ -118,7 +118,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: './src/assets/sombrillas.jpg',
     rating: 4,
     difficulty: 'Principiante',
-    exposure: 0.85
+    exposure: 0.75
   },
   {
     id: 'triangulo',
@@ -130,7 +130,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
     rating: 5,
     difficulty: 'Intermedio',
-    exposure: 1.05
+    exposure: 1
   },
   {
     id: 'pescadores',
@@ -142,7 +142,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
     rating: 4,
     difficulty: 'Intermedio',
-    exposure: 0.90
+    exposure: 0.60
   },
   {
     id: 'la-herradura',

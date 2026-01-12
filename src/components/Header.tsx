@@ -1,12 +1,9 @@
-import { useAppSelector } from '@/store/hooks'
-import { Sun } from 'lucide-react'
+import { Sun, Trash2 } from 'lucide-react'
+import { useAppDispatch } from '@/store/hooks'
+import { clearCache } from '@/features/surf-details/surfSlice'
 
 export default function Header() {
-  const zones = useAppSelector((state) => state.surf.zones)
-  console.log('Zones:', zones)
-  const costaVerdeData = zones?.['costa-verde']?.data
-  console.log('Costa Verde Data:', costaVerdeData)
-
+  const dispatch = useAppDispatch()
 
   return (
     <header className="h-15 flex items-center justify-between px-4 bg-background border-b border-gray-800 text-white shadow-lg">
@@ -18,6 +15,13 @@ export default function Header() {
       </div>
 
       <div className="flex items-center gap-3">
+        <button 
+          onClick={() => dispatch(clearCache())}
+          className="p-2 hover:bg-gray-800 rounded-full transition-colors text-gray-400"
+          title="Limpiar Caché"
+        >
+          <Trash2 size={20} />
+        </button>
         <button className="p-2 hover:bg-gray-800 rounded-full transition-colors text-gray-400">
           <Sun size={20} />
         </button>

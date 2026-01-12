@@ -1,8 +1,6 @@
 import { Marker } from 'react-map-gl/mapbox'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import {
-  setSelectedBeach,
-} from '@/features/surf-details/surfSlice'
+import { setSelectedBeach } from '@/features/surf-details/surfSlice'
 import type { SurfMarkerProps } from '../types/surf'
 import { WavesIcon } from '@/assets/WavesIcon'
 
@@ -11,6 +9,7 @@ export const SurfMarker: React.FC<SurfMarkerProps> = ({
   longitude,
   latitude,
   label = '1',
+  beachStatus,
 }) => {
   const dispatch = useAppDispatch()
   const selectedBeachId = useAppSelector((state) => state.surf.selectedBeachId)
@@ -32,11 +31,16 @@ export const SurfMarker: React.FC<SurfMarkerProps> = ({
               ? 'bg-foreground text-background'
               : 'bg-primary text-white'
           }`}
+          style={
+            isSelected
+              ? { backgroundColor: 'var(--foreground)' }
+              : { backgroundColor: beachStatus?.color }
+          }
         >
           {label}
         </div>
         <div className="absolute top-6 h-8 w-9">
-          <WavesIcon color={isSelected ? '#ffffff' : '#626eec'} />
+          <WavesIcon color={isSelected ? 'var(--foreground)' : beachStatus?.color} />
         </div>
       </div>
     </Marker>
