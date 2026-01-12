@@ -1,23 +1,23 @@
 import { WavesIcon } from '@/assets/WavesIcon'
-import { Star } from 'lucide-react'
+import type { BeachStatusInfo } from '@/utils/beachStatus'
 
 interface BeachCardProps {
   label: string
   name: string
-  rating: number
   difficulty: string
   image: string
   isSelected?: boolean
+  status?: BeachStatusInfo
   onClick?: () => void
 }
 
 export default function BeachCard({
   label,
   name,
-  rating,
   difficulty,
   image,
   isSelected,
+  status,
   onClick,
 }: BeachCardProps) {
   return (
@@ -36,9 +36,7 @@ export default function BeachCard({
         <div className="group absolute -bottom-2 left-1/2 right-1/2 flex cursor-pointer flex-col items-center">
           <div
             className={`flex h-7 w-7.5 border-2 border-background rounded-lg font-bold items-center justify-center shadow-lg text-sm transition-colors ${
-              isSelected
-                ? 'bg-foreground text-background'
-                : 'bg-primary text-white'
+              isSelected ? 'bg-white text-primary' : 'bg-primary text-white'
             }`}
           >
             {label}
@@ -51,29 +49,24 @@ export default function BeachCard({
 
       <div className="flex flex-col gap-2 flex-1 py-0.5">
         <div className="flex justify-between items-start">
-          <h3 className="text-medium font-bold text-white group-hover:text-primary transition-colors">
-            Playa {name}
-          </h3>
+          <div>
+            <h3 className="text-medium font-bold text-white group-hover:text-primary transition-colors">
+              Playa {name}
+            </h3>
+          </div>
         </div>
 
         <div className="flex gap-4">
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col ">
             <span className="text-xs text-foreground-accent font-semibold ">
-              Rating
+              Estado
             </span>
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={10}
-                  className={
-                    i < rating
-                      ? 'fill-foreground text-foreground'
-                      : 'fill-background text-background-accent'
-                  }
-                />
-              ))}
-            </div>
+            <span
+              className="text-xs font-bold leading-none mt-1"
+              style={{ color: status?.color || '#94a3b8' }}
+            >
+              {status?.label || '---'}
+            </span>
           </div>
 
           <div className="flex flex-col ">

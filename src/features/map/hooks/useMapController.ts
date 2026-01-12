@@ -2,7 +2,7 @@ import { useRef, useState, useMemo, useEffect } from 'react'
 import { startOfHour, subHours } from 'date-fns'
 import type { MapRef } from 'react-map-gl/mapbox'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { getConditionsByZone } from '@/features/surf-details/surfSlice'
+import { getConditionsByZone, selectSpotsWithStatus } from '@/features/surf-details/surfSlice'
 import { SURF_SPOTS } from '../data/spots'
 import type { SurfConditionObject } from '../types/surf'
 
@@ -25,6 +25,8 @@ export const useMapController = () => {
     return spot ? spot.zoneId : 'costa-verde'
   }, [selectedBeachId])
 
+  const spotsStatus = useAppSelector(selectSpotsWithStatus)
+
   const selectedBeach = useMemo(() => {
     if (!selectedBeachId) return null
 
@@ -33,7 +35,6 @@ export const useMapController = () => {
 
     const hours = spot.conditions.hours
     const currentHour = startOfHour(subHours(new Date(), 5))
-    const currentHourISO = currentHour.toISOString()
 
     const forecast: SurfConditionObject[] = []
     for (let i = 0; i < 24; i++) {
@@ -45,12 +46,15 @@ export const useMapController = () => {
       }
     }
 
+    const { condition, status } = spotsStatus[selectedBeachId] || {}
+
     return {
       ...spot,
-      currentConditions: hours[currentHourISO] || null,
+      currentConditions: condition || null,
+      status: status || null,
       hourlyForecast: forecast,
     }
-  }, [zones, selectedBeachId, currentZoneId])
+  }, [zones, selectedBeachId, currentZoneId, spotsStatus])
 
   console.log('Costa verde:', zones?.[currentZoneId]?.spots)
 

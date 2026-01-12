@@ -1,7 +1,9 @@
 import { SURF_SPOTS, type SurfSpot } from '@/features/map/data/spots'
 import { fetchWeatherData, fetchMarineData } from '@/api/openMeteo'
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, createSelector } from '@reduxjs/toolkit'
 import type { SurfConditionObject } from '@/features/map/types/surf'
+import { getBeachStatus, type BeachStatusInfo } from '@/utils/beachStatus'
+import { startOfHour, subHours } from 'date-fns'
 
 export interface SurfConditionData extends SurfSpot {
   conditions: {
@@ -133,5 +135,37 @@ const surfSlice = createSlice({
 })
 
 export const { setSelectedBeach, clearCache } = surfSlice.actions
+
+// Selectors
+const selectZones = (state: { surf: SurfState }) => state.surf.zones
+
+/**
+ * Selector que devuelve todos los spots con su estado actual calculado
+ */
+export const selectSpotsWithStatus = createSelector(
+  [selectZones],
+  (zones) => {
+    const currentHourISO = startOfHour(subHours(new Date(), 5)).toISOString()
+    const statuses: Record<string, { condition: SurfConditionObject; status: BeachStatusInfo }> = {}
+
+    SURF_SPOTS.forEach((spot) => {
+      const zoneData = zones[spot.zoneId]
+      const spotData = zoneData?.spots[spot.id]
+      const currentConditions = spotData?.conditions.hours[currentHourISO]
+
+      if (currentConditions) {
+        statuses[spot.id] = {
+          condition: currentConditions,
+          status: getBeachStatus({
+            data: currentConditions,
+            exposure: spot.exposure,
+          }),
+        }
+      }
+    })
+
+    return statuses
+  }
+)
 
 export default surfSlice.reducer

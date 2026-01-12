@@ -44,45 +44,60 @@ export function getBeachStatus({
   data: SurfConditionObject
   exposure: number
 }): BeachStatusInfo {
-  let { waveHeight } = data
-  const { windSpeed, windDirection, wavePeriod } = data
+  const { 
+    waveHeight, swellHeight, swellPeriod, 
+    secondarySwellPeriod, windSpeed, windDirection, wavePeriod 
+  } = data
 
-  waveHeight *= exposure
-  const heightStr = waveHeight.toFixed(1)
-  const isOffshore = windDirection >= 20 && windDirection <= 110
-  const windType = isOffshore ? 'offshore' : 'onshore'
+  // 1. Altura real ajustada por exposición
+  const realHeight = waveHeight * exposure
+  const heightStr = realHeight.toFixed(1)
 
-  // 1. PELIGROSO
-  if (windSpeed > 25 || (windSpeed > 18 && !isOffshore && waveHeight > 2.5)) {
+  // 2. Clasificación del Viento (Crítico para Lima)
+  const isOffshore = windDirection >= 20 && windDirection <= 110;
+  const isOnshore = windDirection >= 190 && windDirection <= 280; // Viento del mar
+  
+  // 3. Energía real (Periodo dominante)
+  const bestPeriod = Math.max(swellPeriod || 0, secondarySwellPeriod || 0, wavePeriod || 0);
+
+  // --- LÓGICA DE DECISIÓN (Orden de prioridad) ---
+
+  // A. PELIGROSO: Viento muy fuerte o olas masivas
+  if (windSpeed > 22 || realHeight > 2.8) {
     return {
       ...STATUS_BASE[BeachStatus.PELIGROSO],
-      description: `Alerta por viento extremo (${windSpeed} km/h) y olas de ${heightStr}m. Riesgo alto.`,
-    }
+      description: `Alerta: Mar muy picado (${windSpeed.toFixed(0)} km/h) y olas de ${heightStr}m.`,
+    };
   }
 
-  // 2. MOVIDO (Rough/Choppy)
-  if (windSpeed > 17 || wavePeriod < 7) {
-    return {
-      ...STATUS_BASE[BeachStatus.MOVIDO],
-      description: `Mar picado con viento ${windType} de ${windSpeed} km/h y periodo corto de ${wavePeriod}s.`,
-    }
-  }
+  // B. OPTIMO (Verde): Solo si el viento ayuda o es casi imperceptible
+  // Si es Onshore > 10km/h, YA NO ES OPTIMO.
+  const windIsGood = isOffshore || windSpeed < 10;
+  const hasGoodEnergy = realHeight >= 0.8 && bestPeriod >= 10 && (swellHeight || 0) > 0.5;
 
-  // 3. OPTIMO (Condiciones Pro)
-  if (waveHeight >= 0.7 && wavePeriod >= 9 && (isOffshore || windSpeed <= 12)) {
+  if (hasGoodEnergy && windIsGood) {
     return {
       ...STATUS_BASE[BeachStatus.OPTIMO],
-      description: `¡Excelentes condiciones! Olas de ${heightStr}m con buen periodo (${wavePeriod.toFixed(1)}s) y viento ${isOffshore ? 'favorable' : 'suave'}.`,
-    }
+      description: `¡Excelentes condiciones! Olas peinadas de ${heightStr}m con periodo de ${bestPeriod.toFixed(0)}s.`,
+    };
   }
 
-  // 4. APTO (Tranquilo o Olas pequeñas)
-  const reason = waveHeight < 0.6 
-    ? `Mar muy tranquilo con olas de ${heightStr}m, ideal para principiantes o nadar.`
-    : `Condiciones aceptables con olas de ${heightStr}m y viento moderado.`
-    
+  // C. MOVIDO (Naranja): Cuando hay olas pero el viento las malogra (Tu caso actual)
+  // Si hay altura pero el viento es Onshore moderado, el mar está "sancochado"
+  if (realHeight >= 0.7 && isOnshore && windSpeed >= 10) {
+    return {
+      ...STATUS_BASE[BeachStatus.MOVIDO],
+      description: `Mar movido por viento onshore de ${windSpeed.toFixed(0)} km/h. Olas con mucha espuma.`,
+    };
+  }
+
+  // D. APTO (Azul): Mar tranquilo o olas chicas para aprender
+  const descriptionApto = realHeight < 0.6 
+    ? `Mar tipo piscina (${heightStr}m), excelente para nadar o remar.`
+    : `Olas pequeñas de ${heightStr}m, condiciones aceptables para principiantes.`;
+
   return {
     ...STATUS_BASE[BeachStatus.APTO],
-    description: reason,
-  }
+    description: descriptionApto,
+  };
 }

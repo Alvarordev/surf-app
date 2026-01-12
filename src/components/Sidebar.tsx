@@ -3,11 +3,12 @@ import { useState, useMemo } from 'react'
 import BeachCard from './BeachCard'
 import { SURF_SPOTS } from '@/features/map/data/spots'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { setSelectedBeach } from '@/features/surf-details/surfSlice'
+import { setSelectedBeach, selectSpotsWithStatus } from '@/features/surf-details/surfSlice'
 
 export default function Sidebar() {
   const dispatch = useAppDispatch()
   const selectedBeachId = useAppSelector((state) => state.surf.selectedBeachId)
+  const spotsStatus = useAppSelector(selectSpotsWithStatus)
   const [searchTerm, setSearchTerm] = useState('')
 
   const filteredSpots = useMemo(() => {
@@ -77,10 +78,10 @@ export default function Sidebar() {
             key={spot.id}
             label={spot.label}
             name={spot.name}
-            rating={spot.rating}
             difficulty={spot.difficulty}
             image={spot.image}
             isSelected={spot.id === selectedBeachId}
+            status={spotsStatus[spot.id]?.status}
             onClick={() => dispatch(setSelectedBeach(spot.id))}
           />
         ))}
