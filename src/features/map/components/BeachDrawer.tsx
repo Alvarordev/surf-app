@@ -153,12 +153,12 @@ export default function BeachDrawer({
 
             <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-40">
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 border-b border-slate-50 pb-1">
-                Oleaje
+                Swell
               </p>
               <div className="flex-1 flex flex-col justify-center gap-3">
                 <div className="flex items-center justify-between group">
                   <span className="text-[10px] font-bold text-slate-500 uppercase w-6">
-                    Pri
+                    Primary
                   </span>
                   <span className="text-sm font-black text-slate-900">
                     {currentConditions.swellHeight.toFixed(1)}m
@@ -186,7 +186,7 @@ export default function BeachDrawer({
 
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-bold text-slate-500 uppercase w-6">
-                    Sec
+                    Secondary
                   </span>
                   <span className="text-sm font-black text-slate-800">
                     {currentConditions.secondarySwellHeight.toFixed(1)}m

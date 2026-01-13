@@ -20,7 +20,7 @@ export default function Header({ searchTerm, onSearchChange }: HeaderProps) {
   const isMapView = search.view === 'map'
 
   return (
-    <div className="absolute top-0 left-0 right-0 md:right-auto md:w-102 z-50 pt-2 pb-10 px-0 bg-linear-to-b from-black via-black/80 to-transparent pointer-events-none">
+    <div className="absolute top-0 left-0 right-0 md:right-auto md:w-102 z-50 pt-2 pb-5 px-0 bg-linear-to-b from-black via-black/80 via-70% to-transparent pointer-events-none">
       <div className="p-6 pb-4 space-y-6 pointer-events-auto">
         <div className="flex items-center">
           <button

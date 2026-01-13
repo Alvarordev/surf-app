@@ -44,10 +44,10 @@ export default function Sidebar({ searchTerm }: SidebarProps) {
 
   return (
     <aside className="w-full md:w-102 border-r border-gray-800 bg-background flex flex-col h-full overflow-hidden relative">
-      <div className="flex-1 flex flex-col h-full pt-44 pb-6 overflow-hidden">
+      <div className="flex-1 flex flex-col h-full pt-40 pb-6 overflow-hidden">
         {!zoneId ? (
           <>
-            <div className="px-6 flex items-baseline gap-4 mb-4 shrink-0">
+            <div className="px-6 py-2 flex items-baseline gap-4 mb-4 shrink-0">
               <div className="flex items-baseline gap-2">
                 <h2 className="text-base font-semibold text-white tracking-tight">
                   Zonas
@@ -57,10 +57,10 @@ export default function Sidebar({ searchTerm }: SidebarProps) {
                 </span>
               </div>
               <div className="flex items-baseline gap-2">
-                <h2 className="text-base font-semibold text-gray-700 tracking-tight">
+                <h2 className="text-base font-semibold text-gray-500 tracking-tight">
                   Spots
                 </h2>
-                <span className="text-base font-semibold text-gray-700">
+                <span className="text-base font-semibold text-gray-500">
                   {SURF_SPOTS.length}
                 </span>
               </div>
