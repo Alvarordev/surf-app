@@ -9,6 +9,8 @@ export interface SurfSpot {
   rating: number
   difficulty: string
   exposure: number
+  bestTide?: string
+  idealWind?: string
 }
 
 export const SURF_SPOTS: SurfSpot[] = [
@@ -22,7 +24,9 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: './src/assets/puntaroquitas.png',
     rating: 4,
     difficulty: 'Intermedio',
-    exposure: 1.15
+    exposure: 1.15,
+    bestTide: 'Media-Baja',
+    idealWind: 'NE (Offshore)'
   },
   {
     id: 'pampilla',
@@ -34,7 +38,9 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: './src/assets/pampilla.webp',
     rating: 4,
     difficulty: 'Intermedio',
-    exposure: 1.10
+    exposure: 1.10,
+    bestTide: 'Secas',
+    idealWind: 'N-NE (Offshore)'
   },
   {
     id: 'waikiki',
@@ -154,6 +160,8 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
     rating: 5,
     difficulty: 'Experto',
-    exposure: 1.25
+    exposure: 1.25,
+    bestTide: 'Baja',
+    idealWind: 'N-NE (Offshore)'
   },
 ]

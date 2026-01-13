@@ -1,9 +1,12 @@
-import { Search, SlidersHorizontal, Users, Waves } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { useState, useMemo } from 'react'
 import BeachCard from './BeachCard'
 import { SURF_SPOTS } from '@/features/map/data/spots'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { setSelectedBeach, selectSpotsWithStatus } from '@/features/surf-details/surfSlice'
+import {
+  setSelectedBeach,
+  selectSpotsWithStatus,
+} from '@/features/surf-details/surfSlice'
 
 export default function Sidebar() {
   const dispatch = useAppDispatch()
@@ -33,39 +36,20 @@ export default function Sidebar() {
             className="w-full bg-[#232326] border-none rounded-lg py-2.5 pl-10 pr-4 text-sm text-white placeholder-gray-500 focus:ring-1 focus:ring-primary outline-none"
           />
         </div>
-
-        <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
-          <button className="flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap">
-            <SlidersHorizontal size={14} />
-            Filters
-          </button>
-          <button className="flex items-center gap-2 bg-[#232326] text-gray-300 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap border border-gray-700">
-            <Waves size={14} />
-            Level
-          </button>
-          <button className="flex items-center gap-2 bg-[#232326] text-gray-300 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap border border-gray-700">
-            <Users size={14} />
-            Crowd
-          </button>
-          <button className="flex items-center gap-2 bg-[#232326] text-gray-300 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap border border-gray-700">
-            <Waves size={14} />
-            Wave Type
-          </button>
-        </div>
       </div>
 
       <div className="px-4 py-2">
         <h2 className="text-xl font-bold text-white">Costa Verde</h2>
         <p className="text-xs text-gray-400 mt-1 leading-relaxed">
           La bahía más constante de Lima. Ofrece desde picos escuela hasta
-          secciones sólidas y tubulares. Recibe swells del Sur con
-          perfección.
+          secciones sólidas y tubulares. Recibe swells del Sur con perfección.
         </p>
       </div>
 
       <div className="px-4 py-4 flex justify-between items-center">
         <span className="text-sm font-semibold text-white">
-          Spots <span className="text-gray-500 ml-1">{filteredSpots.length}</span>
+          Spots{' '}
+          <span className="text-gray-500 ml-1">{filteredSpots.length}</span>
         </span>
         <button className="text-xs text-indigo-400 font-medium">
           Sort by: Popular

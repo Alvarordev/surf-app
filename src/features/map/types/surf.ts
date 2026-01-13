@@ -17,6 +17,7 @@ export interface SurfConditionObject {
   secondarySwellPeriod: number
   secondarySwellDirection: number
   waterTemperature: number
+  tideHeight: number
 }
 
 export interface SurfMarkerProps {

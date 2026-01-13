@@ -1,8 +1,11 @@
 import { useRef, useState, useMemo, useEffect } from 'react'
-import { startOfHour, subHours } from 'date-fns'
+import { startOfHour } from 'date-fns'
 import type { MapRef } from 'react-map-gl/mapbox'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { getConditionsByZone, selectSpotsWithStatus } from '@/features/surf-details/surfSlice'
+import {
+  getConditionsByZone,
+  selectSpotsWithStatus,
+} from '@/features/surf-details/surfSlice'
 import { SURF_SPOTS } from '../data/spots'
 import type { SurfConditionObject } from '../types/surf'
 
@@ -34,7 +37,7 @@ export const useMapController = () => {
     if (!spot) return null
 
     const hours = spot.conditions.hours
-    const currentHour = startOfHour(subHours(new Date(), 5))
+    const currentHour = startOfHour(new Date())
 
     const forecast: SurfConditionObject[] = []
     for (let i = 0; i < 24; i++) {
@@ -48,11 +51,16 @@ export const useMapController = () => {
 
     const { condition, status } = spotsStatus[selectedBeachId] || {}
 
+    const dailyForecast = Object.values(hours).sort(
+      (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime(),
+    )
+
     return {
       ...spot,
       currentConditions: condition || null,
       status: status || null,
       hourlyForecast: forecast,
+      dailyForecast,
     }
   }, [zones, selectedBeachId, currentZoneId, spotsStatus])
 
