@@ -59,7 +59,7 @@ export default function BeachDrawer({
       <div
         className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-4xl z-50 transition-transform duration-500 ease-out transform ${
           isOpen ? 'translate-y-0' : 'translate-y-full'
-        } max-h-[92vh] overflow-y-auto shadow-2xl`}
+        } max-h-[85vh] md:max-h-[92vh] overflow-y-auto shadow-2xl`}
       >
         <div className="sticky top-0 bg-white pt-4 pb-2 px-6 flex justify-between items-center border-b border-slate-50 z-20">
           <div className="w-12 h-1.5 bg-slate-200 rounded-full absolute top-3 left-1/2 -translate-x-1/2" />

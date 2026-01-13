@@ -34,7 +34,7 @@ const MetricItem = ({
   color,
 }: MetricItemProps) => (
   <div className="flex flex-col items-center gap-1">
-    <div className="flex items-center gap-1.5">
+    <div className="flex items-center gap-0.5 md:gap-1.5">
       <Icon size={14} style={{ color: color || '#3b82f6' }} />
       <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400">
         {label}
@@ -73,7 +73,7 @@ export default function BeachDetails({ beach }: BeachDetailsProps) {
 
   return (
     <>
-      <div className="absolute bottom-0 left-0 right-0 w-full pt-4 pb-4 px-3 md:pt-16 md:pb-12 md:px-6 bg-linear-to-t from-black/90 via-black/40 to-transparent flex items-end justify-center pointer-events-none z-40">
+      <div className="absolute bottom-0 left-0 right-0 w-full pt-4   pb-6 px-3 md:pt-16 md:pb-12 md:px-6 bg-linear-to-t from-black/90 via-black/40 to-transparent flex items-end justify-center pointer-events-none z-40">
         <div
           onClick={() => setIsDrawerOpen(true)}
           className="w-full max-w-150 bg-white rounded-3xl p-3 md:px-4 md:pb-4 shadow-2xl flex flex-col relative pointer-events-auto cursor-pointer hover:-translate-y-1 transition-all duration-300 group"
@@ -114,7 +114,7 @@ export default function BeachDetails({ beach }: BeachDetailsProps) {
                 <Bookmark className="h-5 w-5 text-slate-200 cursor-pointer hover:text-primary transition-colors" />
               </div>
 
-              <div className="flex justify-between md:justify-between items-center px-1 bg-slate-50/50 py-2 md:py-3 rounded-2xl border border-slate-50">
+              <div className="flex justify-between md:justify-between items-center pr-1 md:px-1 bg-slate-50/50 py-2 md:py-3 rounded-2xl border border-slate-50">
                 <MetricItem
                   icon={Waves}
                   label="Altura"
