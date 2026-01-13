@@ -76,7 +76,7 @@ export default function BeachDetails({ beach }: BeachDetailsProps) {
       <div className="absolute bottom-0 left-0 right-0 w-full pt-4   pb-6 px-3 md:pt-16 md:pb-12 md:px-6 bg-linear-to-t from-black/90 via-black/40 to-transparent flex items-end justify-center pointer-events-none z-40">
         <div
           onClick={() => setIsDrawerOpen(true)}
-          className="w-full max-w-150 bg-white rounded-3xl p-3 md:px-4 md:pb-4 shadow-2xl flex flex-col relative pointer-events-auto cursor-pointer hover:-translate-y-1 transition-all duration-300 group"
+          className="w-full max-w-150 bg-white rounded-3xl px-3 pt-2 pb-4 md:px-4 md:pb-4 shadow-2xl flex flex-col relative pointer-events-auto cursor-pointer hover:-translate-y-1 transition-all duration-300 group"
         >
           <div className="flex w-full items-center justify-center gap-2 text-[10px] pb-1 md:pt-0 md:pb-1 font-black text-slate-300 uppercase tracking-widest group-hover:text-primary transition-colors">
             <ChevronUp size={12} className="group-hover:animate-bounce" />
