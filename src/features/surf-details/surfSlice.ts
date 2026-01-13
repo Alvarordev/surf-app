@@ -20,14 +20,12 @@ export interface ZoneData {
 
 export interface SurfState {
   zones: Record<string, ZoneData>
-  selectedBeachId: string | null
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null
 }
 
 const initialState: SurfState = {
   zones: {},
-  selectedBeachId: null,
   status: 'idle',
   error: null,
 }
@@ -68,9 +66,9 @@ export const getConditionsByZone = createAsyncThunk(
     const cachedZone = state.surf.zones?.[zoneId]
 
     const now = Date.now()
-    const CUATRO_HORAS = 60 * 60 * 1000
+    const HORA = 60 * 60 * 1000
 
-    if (cachedZone && now - cachedZone.lastUpdated < CUATRO_HORAS) {
+    if (cachedZone && now - cachedZone.lastUpdated < HORA) {
       console.log(
         `⚡ Usando datos cacheados para la zona [${zoneId}] (Ahorrando API Calls)`,
       )
@@ -100,10 +98,6 @@ const surfSlice = createSlice({
   name: 'surf',
   initialState,
   reducers: {
-    setSelectedBeach: (state, action) => {
-      state.selectedBeachId =
-        state.selectedBeachId === action.payload ? null : action.payload
-    },
     clearCache: (state) => {
       state.zones = {}
     },
@@ -131,7 +125,7 @@ const surfSlice = createSlice({
   },
 })
 
-export const { setSelectedBeach, clearCache } = surfSlice.actions
+export const { clearCache } = surfSlice.actions
 
 const selectZones = (state: { surf: SurfState }) => state.surf.zones
 

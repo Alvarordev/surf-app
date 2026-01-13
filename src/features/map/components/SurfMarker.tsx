@@ -1,8 +1,8 @@
 import { Marker } from 'react-map-gl/mapbox'
-import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { setSelectedBeach } from '@/features/surf-details/surfSlice'
+import { useParams, useNavigate } from '@tanstack/react-router'
 import type { SurfMarkerProps } from '../types/surf'
 import { WavesIcon } from '@/assets/WavesIcon'
+import { SURF_SPOTS } from '../data/spots'
 
 export const SurfMarker: React.FC<SurfMarkerProps> = ({
   id,
@@ -11,12 +11,33 @@ export const SurfMarker: React.FC<SurfMarkerProps> = ({
   label = '1',
   beachStatus,
 }) => {
-  const dispatch = useAppDispatch()
-  const selectedBeachId = useAppSelector((state) => state.surf.selectedBeachId)
+  const navigate = useNavigate()
+  const params = useParams({ strict: false }) as {
+    zoneId?: string
+    spotId?: string
+  }
+  const { zoneId, spotId: selectedBeachId } = params
+
   const isSelected = selectedBeachId === id
 
-  const handleClick = () => {
-    dispatch(setSelectedBeach(id))
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const spot = SURF_SPOTS.find(s => s.id === id)
+    const targetZoneId = zoneId || spot?.zoneId || 'costa-verde'
+    
+    if (selectedBeachId === id) {
+      navigate({
+        to: '/$zoneId',
+        params: { zoneId: targetZoneId },
+        search: (prev: any) => ({ ...prev, view: 'list' }),
+      } as any)
+    } else {
+      navigate({
+        to: '/$zoneId/$spotId',
+        params: { zoneId: targetZoneId, spotId: id },
+        search: (prev: any) => ({ ...prev, view: 'map' }),
+      } as any)
+    }
   }
 
   return (

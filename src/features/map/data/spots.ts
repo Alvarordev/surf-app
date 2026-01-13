@@ -8,8 +8,6 @@ import LosPavosImg from '../../../assets/los-pavos.jpg'
 import LosYuyosImg from '../../../assets/los-yuyos.jpg'
 import SombrillasImg from '../../../assets/sombrillas.jpg'
 
-
-
 export interface SurfSpot {
   id: string
   name: string
@@ -38,7 +36,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     difficulty: 'Intermedio',
     exposure: 1.15,
     bestTide: 'Media-Baja',
-    idealWind: 'NE (Offshore)'
+    idealWind: 'NE (Offshore)',
   },
   {
     id: 'pampilla',
@@ -50,9 +48,9 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: PampillaImg,
     rating: 4,
     difficulty: 'Intermedio',
-    exposure: 1.10,
+    exposure: 1.1,
     bestTide: 'Secas',
-    idealWind: 'N-NE (Offshore)'
+    idealWind: 'N-NE (Offshore)',
   },
   {
     id: 'waikiki',
@@ -64,7 +62,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: WaikikiImg,
     rating: 4,
     difficulty: 'Principiante',
-    exposure: 0.85
+    exposure: 0.85,
   },
   {
     id: 'makaha',
@@ -76,7 +74,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: MakahaImg,
     rating: 3,
     difficulty: 'Principiante',
-    exposure: 0.80
+    exposure: 0.8,
   },
   {
     id: 'redondo',
@@ -88,7 +86,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: RedondoImg,
     rating: 3,
     difficulty: 'Principiante',
-    exposure: 0.90
+    exposure: 0.9,
   },
   {
     id: 'barranquito',
@@ -100,7 +98,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: BarranquitoImg,
     rating: 5,
     difficulty: 'Intermedio',
-    exposure: 1.05
+    exposure: 1.05,
   },
   {
     id: 'los-pavos',
@@ -112,7 +110,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: LosPavosImg,
     rating: 4,
     difficulty: 'Intermedio',
-    exposure: 0.95
+    exposure: 0.95,
   },
   {
     id: 'los-yuyos',
@@ -124,7 +122,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: LosYuyosImg,
     rating: 5,
     difficulty: 'Principiante',
-    exposure: 0.5
+    exposure: 0.5,
   },
   {
     id: 'sombrillas',
@@ -136,7 +134,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     image: SombrillasImg,
     rating: 4,
     difficulty: 'Principiante',
-    exposure: 0.75
+    exposure: 0.75,
   },
   {
     id: 'triangulo',
@@ -145,10 +143,11 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.02869630534595,
     zoneId: 'costa-verde',
     label: '10',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
+    image:
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
     rating: 5,
     difficulty: 'Intermedio',
-    exposure: 1
+    exposure: 1,
   },
   {
     id: 'pescadores',
@@ -157,10 +156,11 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.0305037256613,
     zoneId: 'costa-verde',
     label: '11',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
+    image:
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
     rating: 4,
     difficulty: 'Intermedio',
-    exposure: 0.60
+    exposure: 0.6,
   },
   {
     id: 'la-herradura',
@@ -169,11 +169,26 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.034172162188,
     zoneId: 'costa-verde',
     label: '12',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
+    image:
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
     rating: 5,
     difficulty: 'Experto',
     exposure: 1.25,
     bestTide: 'Baja',
-    idealWind: 'N-NE (Offshore)'
+    idealWind: 'N-NE (Offshore)',
+  },
+
+  {
+    id: 'senoritas',
+    name: 'Señoritas',
+    lat: -12.325538977007964,
+    lng: -76.8357993174934,
+    zoneId: 'sur-chico',
+    label: '13',
+    image:
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
+    rating: 4,
+    difficulty: 'Intermedio',
+    exposure: 1.1,
   },
 ]

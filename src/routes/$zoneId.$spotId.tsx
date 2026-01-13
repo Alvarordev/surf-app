@@ -1,25 +1,21 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useAppDispatch } from '@/store/hooks'
 import { useEffect } from 'react'
-import { SURF_SPOTS } from '@/features/map/data/spots'
 import { getConditionsByZone } from '@/features/surf-details/surfSlice'
 
-export const Route = createFileRoute('/')({
-  component: App,
+export const Route = createFileRoute('/$zoneId/$spotId')({
+  component: SpotRoute,
 })
 
-function App() {
+function SpotRoute() {
+  const { zoneId } = Route.useParams()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    const uniqueZones = Array.from(
-      new Set(SURF_SPOTS.map((spot) => spot.zoneId)),
-    )
-
-    uniqueZones.forEach((zoneId) => {
+    if (zoneId) {
       dispatch(getConditionsByZone({ zoneId }))
-    })
-  }, [dispatch])
+    }
+  }, [dispatch, zoneId])
 
   return null
 }

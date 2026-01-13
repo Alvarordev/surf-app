@@ -1,8 +1,21 @@
-export const SURF_ZONES = {
-  COSTA_VERDE: {
+export interface Zone {
+  id: string
+  name: string
+  description: string
+  image: string
+  center: { lat: number; lng: number }
+  spots: string[]
+}
+
+export const SURF_ZONES: Record<string, Zone> = {
+  'costa-verde': {
     id: 'costa-verde',
-    name: 'Costa Verde Central',
-    center: { lat: -12.1450, lng: -77.0350 },
+    name: 'Costa Verde',
+    description:
+      'La bahía más constante de Lima. Ofrece desde picos escuela hasta secciones sólidas y tubulares. Recibe swells del Sur con perfección.',
+    image:
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
+    center: { lat: -12.145, lng: -77.035 },
     spots: [
       'la-herradura',
       'pescadores',
@@ -15,12 +28,17 @@ export const SURF_ZONES = {
       'makaha',
       'waikiki',
       'pampilla',
+      'punta-roquitas',
     ],
   },
-  SUR_CHICO_1: {
-    id: 'punta-hermosa',
-    name: 'Punta Hermosa',
+  'sur-chico': {
+    id: 'sur-chico',
+    name: 'Sur Chico',
+    description:
+      'Cuna del surf peruano. Playas con fondos de roca y arena que producen olas de clase mundial y gran potencia.',
+    image:
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
     center: { lat: -12.3333, lng: -76.825 },
-    spots: ['pico-alto', 'el-paso', 'la-isla', 'playa-norte'],
+    spots: ['senoritas'],
   },
 }

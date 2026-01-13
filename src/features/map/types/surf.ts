@@ -21,7 +21,7 @@ export interface SurfConditionObject {
 }
 
 export interface SurfMarkerProps {
-  id: string | number
+  id: string
   longitude: number
   latitude: number
   label?: string

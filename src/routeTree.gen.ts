@@ -9,38 +9,64 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ZoneIdRouteImport } from './routes/$zoneId'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ZoneIdSpotIdRouteImport } from './routes/$zoneId.$spotId'
 
+const ZoneIdRoute = ZoneIdRouteImport.update({
+  id: '/$zoneId',
+  path: '/$zoneId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ZoneIdSpotIdRoute = ZoneIdSpotIdRouteImport.update({
+  id: '/$spotId',
+  path: '/$spotId',
+  getParentRoute: () => ZoneIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$zoneId': typeof ZoneIdRouteWithChildren
+  '/$zoneId/$spotId': typeof ZoneIdSpotIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$zoneId': typeof ZoneIdRouteWithChildren
+  '/$zoneId/$spotId': typeof ZoneIdSpotIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$zoneId': typeof ZoneIdRouteWithChildren
+  '/$zoneId/$spotId': typeof ZoneIdSpotIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/$zoneId' | '/$zoneId/$spotId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/$zoneId' | '/$zoneId/$spotId'
+  id: '__root__' | '/' | '/$zoneId' | '/$zoneId/$spotId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ZoneIdRoute: typeof ZoneIdRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/$zoneId': {
+      id: '/$zoneId'
+      path: '/$zoneId'
+      fullPath: '/$zoneId'
+      preLoaderRoute: typeof ZoneIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +74,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$zoneId/$spotId': {
+      id: '/$zoneId/$spotId'
+      path: '/$spotId'
+      fullPath: '/$zoneId/$spotId'
+      preLoaderRoute: typeof ZoneIdSpotIdRouteImport
+      parentRoute: typeof ZoneIdRoute
+    }
   }
 }
 
+interface ZoneIdRouteChildren {
+  ZoneIdSpotIdRoute: typeof ZoneIdSpotIdRoute
+}
+
+const ZoneIdRouteChildren: ZoneIdRouteChildren = {
+  ZoneIdSpotIdRoute: ZoneIdSpotIdRoute,
+}
+
+const ZoneIdRouteWithChildren =
+  ZoneIdRoute._addFileChildren(ZoneIdRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ZoneIdRoute: ZoneIdRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

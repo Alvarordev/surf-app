@@ -303,7 +303,7 @@ export default function BeachDrawer({
             </div>
             <h4 className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
               <span className="w-2 h-2 bg-primary rounded-full" />{' '}
-              Interpretación Pro
+              Recomendaciones
             </h4>
             <p className="text-sm font-bold leading-relaxed text-slate-200">
               Condición{' '}

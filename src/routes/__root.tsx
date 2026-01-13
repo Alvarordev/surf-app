@@ -1,31 +1,48 @@
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-
-import Header from '../components/Header'
+import { Outlet, createRootRoute, useSearch } from '@tanstack/react-router'
+import { useState } from 'react'
 import Sidebar from '../components/Sidebar'
-import { useAppSelector } from '@/store/hooks'
+import LimaMap from '@/features/map/components/MapContainer'
+import Header from '@/components/Header'
+
+type SurfSearchParams = {
+  view?: 'list' | 'map'
+}
 
 export const Route = createRootRoute({
+  validateSearch: (search: Record<string, unknown>): SurfSearchParams => {
+    return {
+      view: (search.view as 'list' | 'map') || 'list',
+    }
+  },
   component: RootLayout,
 })
 
 function RootLayout() {
-  const selectedBeachId = useAppSelector((state) => state.surf.selectedBeachId)
+  const [searchTerm, setSearchTerm] = useState('')
+  const { view } = useSearch({ from: Route.id })
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
-      <Header />
-      <div className="flex flex-1 overflow-hidden relative">
-        <div
-          className={`${selectedBeachId ? 'hidden' : 'block w-full'} md:block md:w-auto`}
-        >
-          <Sidebar />
-        </div>
-        <main
-          className={`flex-1 overflow-y-auto ${!selectedBeachId ? 'hidden' : 'block'} md:block relative`}
-        >
-          <Outlet />
-        </main>
+    <div className="flex h-screen w-screen overflow-hidden bg-background">
+      <Header searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+
+      <div
+        className={`
+        ${view === 'map' ? 'hidden md:block' : 'block'}
+        h-full w-full md:w-auto
+      `}
+      >
+        <Sidebar searchTerm={searchTerm} />
       </div>
+
+      <main
+        className={`
+        flex-1 relative h-full
+        ${view === 'list' ? 'hidden md:block' : 'block'}
+      `}
+      >
+        <LimaMap />
+        <Outlet />
+      </main>
     </div>
   )
 }

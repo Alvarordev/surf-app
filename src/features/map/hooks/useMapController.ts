@@ -1,6 +1,7 @@
 import { useRef, useState, useMemo, useEffect } from 'react'
 import { startOfHour } from 'date-fns'
 import type { MapRef } from 'react-map-gl/mapbox'
+import { useParams } from '@tanstack/react-router'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   getConditionsByZone,
@@ -19,14 +20,20 @@ export const useMapController = () => {
   const mapRef = useRef<MapRef>(null)
   const [viewState, setViewState] = useState(LIMA_INITIAL_VIEW)
 
+  const params = useParams({ strict: false }) as {
+    zoneId?: string
+    spotId?: string
+  }
+  const { zoneId: currentZoneIdParam, spotId: selectedBeachId } = params
+
   const dispatch = useAppDispatch()
-  const selectedBeachId = useAppSelector((state) => state.surf.selectedBeachId)
   const zones = useAppSelector((state) => state.surf.zones)
 
   const currentZoneId = useMemo(() => {
+    if (currentZoneIdParam) return currentZoneIdParam
     const spot = SURF_SPOTS.find((s) => s.id === selectedBeachId)
     return spot ? spot.zoneId : 'costa-verde'
-  }, [selectedBeachId])
+  }, [selectedBeachId, currentZoneIdParam])
 
   const spotsStatus = useAppSelector(selectSpotsWithStatus)
 

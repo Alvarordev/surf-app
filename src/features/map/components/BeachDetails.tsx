@@ -78,13 +78,13 @@ export default function BeachDetails({ beach }: BeachDetailsProps) {
           onClick={() => setIsDrawerOpen(true)}
           className="w-full max-w-150 bg-white rounded-3xl p-3 md:px-4 md:pb-4 shadow-2xl flex flex-col relative pointer-events-auto cursor-pointer hover:-translate-y-1 transition-all duration-300 group"
         >
-          <div className="flex w-full items-center justify-center gap-2 text-[10px] pt-1 md:pt-3 font-black text-slate-300 uppercase tracking-widest group-hover:text-primary transition-colors">
+          <div className="flex w-full items-center justify-center gap-2 text-[10px] pb-1 md:pt-0 md:pb-1 font-black text-slate-300 uppercase tracking-widest group-hover:text-primary transition-colors">
             <ChevronUp size={12} className="group-hover:animate-bounce" />
             <span>ver más detalles</span>
             <ChevronUp size={12} className="group-hover:animate-bounce" />
           </div>
 
-          <div className="flex gap-3 md:gap-5 relative mt-2">
+          <div className="flex gap-3 md:gap-5 relative">
             <div className="relative w-20 h-20 md:w-24 md:h-24 shrink-0 self-center">
               <img
                 src={beach.image}
@@ -104,8 +104,8 @@ export default function BeachDetails({ beach }: BeachDetailsProps) {
               </div>
             </div>
 
-            <div className="flex-1 flex flex-col justify-center gap-2">
-              <div className="flex justify-between items-start w-full">
+            <div className="flex-1 flex flex-col justify-center gap-1">
+              <div className="flex justify-between items-start w-full pt-1">
                 <div>
                   <h2 className="text-lg md:text-xl font-black text-slate-800 tracking-tighter leading-none">
                     {beach.name}
@@ -128,15 +128,13 @@ export default function BeachDetails({ beach }: BeachDetailsProps) {
                   unit="m"
                   loading={isLoading}
                 />
-
                 <MetricItem
                   icon={Timer}
                   label="Periodo"
                   value={currentConditions?.wavePeriod?.toFixed(1) ?? ''}
                   unit="s"
                   loading={isLoading}
-                />2
-
+                />
                 <MetricItem
                   icon={Wind}
                   label="Viento"
@@ -144,7 +142,6 @@ export default function BeachDetails({ beach }: BeachDetailsProps) {
                   unit=" km/h"
                   loading={isLoading}
                 />
-
                 <MetricItem
                   icon={Shell}
                   label="Swell"
