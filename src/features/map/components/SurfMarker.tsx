@@ -29,7 +29,7 @@ export const SurfMarker: React.FC<SurfMarkerProps> = ({
       navigate({
         to: '/$zoneId',
         params: { zoneId: targetZoneId },
-        search: (prev: any) => ({ ...prev, view: 'list' }),
+        search: (prev: any) => ({ ...prev, view: 'map' }),
       } as any)
     } else {
       navigate({

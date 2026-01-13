@@ -22,13 +22,13 @@ function RootLayout() {
   const { view } = useSearch({ from: Route.id })
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-background">
+    <div className="flex h-dvh w-screen overflow-hidden bg-background">
       <Header searchTerm={searchTerm} onSearchChange={setSearchTerm} />
 
       <div
         className={`
         ${view === 'map' ? 'hidden md:block' : 'block'}
-        h-full w-full md:w-auto
+        h-full w-full md:w-auto z-10
       `}
       >
         <Sidebar searchTerm={searchTerm} />
@@ -37,7 +37,7 @@ function RootLayout() {
       <main
         className={`
         flex-1 relative h-full
-        ${view === 'list' ? 'hidden md:block' : 'block'}
+        ${view === 'list' ? 'opacity-0 pointer-events-none absolute inset-0 md:opacity-100 md:pointer-events-auto md:relative' : 'opacity-100 pointer-events-auto'}
       `}
       >
         <LimaMap />
