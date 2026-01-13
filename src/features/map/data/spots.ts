@@ -1,3 +1,15 @@
+import PuntaRoquitasImg from '../../../assets/puntaroquitas.png'
+import PampillaImg from '../../../assets/pampilla.webp'
+import WaikikiImg from '../../../assets/waikiki.jpg'
+import MakahaImg from '../../../assets/makaha.jpg'
+import RedondoImg from '../../../assets/redondo.webp'
+import BarranquitoImg from '../../../assets/barranquito.png'
+import LosPavosImg from '../../../assets/los-pavos.jpg'
+import LosYuyosImg from '../../../assets/los-yuyos.jpg'
+import SombrillasImg from '../../../assets/sombrillas.jpg'
+
+
+
 export interface SurfSpot {
   id: string
   name: string
@@ -21,7 +33,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.04436400350683,
     zoneId: 'costa-verde',
     label: '1',
-    image: './src/assets/puntaroquitas.png',
+    image: PuntaRoquitasImg,
     rating: 4,
     difficulty: 'Intermedio',
     exposure: 1.15,
@@ -35,7 +47,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.04065382892229,
     zoneId: 'costa-verde',
     label: '2',
-    image: './src/assets/pampilla.webp',
+    image: PampillaImg,
     rating: 4,
     difficulty: 'Intermedio',
     exposure: 1.10,
@@ -49,7 +61,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.0390385583773,
     zoneId: 'costa-verde',
     label: '3',
-    image: './src/assets/waikiki.jpg',
+    image: WaikikiImg,
     rating: 4,
     difficulty: 'Principiante',
     exposure: 0.85
@@ -61,7 +73,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.03700309696961,
     zoneId: 'costa-verde',
     label: '4',
-    image: './src/assets/makaha.jpg',
+    image: MakahaImg,
     rating: 3,
     difficulty: 'Principiante',
     exposure: 0.80
@@ -73,7 +85,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.03436112363295,
     zoneId: 'costa-verde',
     label: '5',
-    image: './src/assets/redondo.webp',
+    image: RedondoImg,
     rating: 3,
     difficulty: 'Principiante',
     exposure: 0.90
@@ -85,7 +97,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.02766559183499,
     zoneId: 'costa-verde',
     label: '6',
-    image: './src/assets/barranquito.png',
+    image: BarranquitoImg,
     rating: 5,
     difficulty: 'Intermedio',
     exposure: 1.05
@@ -97,7 +109,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.02646796694538,
     zoneId: 'costa-verde',
     label: '7',
-    image: './src/assets/los-pavos.jpg',
+    image: LosPavosImg,
     rating: 4,
     difficulty: 'Intermedio',
     exposure: 0.95
@@ -109,7 +121,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.02638216509918,
     zoneId: 'costa-verde',
     label: '8',
-    image: './src/assets/los-yuyos.jpg',
+    image: LosYuyosImg,
     rating: 5,
     difficulty: 'Principiante',
     exposure: 0.5
@@ -121,7 +133,7 @@ export const SURF_SPOTS: SurfSpot[] = [
     lng: -77.02740290015365,
     zoneId: 'costa-verde',
     label: '9',
-    image: './src/assets/sombrillas.jpg',
+    image: SombrillasImg,
     rating: 4,
     difficulty: 'Principiante',
     exposure: 0.75
