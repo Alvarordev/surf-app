@@ -2,11 +2,8 @@ import { useRef, useState, useMemo, useEffect } from 'react'
 import { startOfHour } from 'date-fns'
 import type { MapRef } from 'react-map-gl/mapbox'
 import { useParams } from '@tanstack/react-router'
-import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import {
-  getConditionsByZone,
-  selectSpotsWithStatus,
-} from '@/features/surf-details/surfSlice'
+import { useAppSelector } from '@/store/hooks'
+import { selectSpotsWithStatus } from '@/features/surf-details/surfSlice'
 import { SURF_SPOTS } from '../data/spots'
 import type { SurfConditionObject } from '../types/surf'
 
@@ -26,7 +23,6 @@ export const useMapController = () => {
   }
   const { zoneId: currentZoneIdParam, spotId: selectedBeachId } = params
 
-  const dispatch = useAppDispatch()
   const zones = useAppSelector((state) => state.surf.zones)
 
   const currentZoneId = useMemo(() => {
@@ -70,16 +66,6 @@ export const useMapController = () => {
       dailyForecast,
     }
   }, [zones, selectedBeachId, currentZoneId, spotsStatus])
-
-  console.log('Costa verde:', zones?.[currentZoneId]?.spots)
-
-  useEffect(() => {
-    dispatch(
-      getConditionsByZone({
-        zoneId: currentZoneId,
-      }),
-    )
-  }, [dispatch, currentZoneId])
 
   useEffect(() => {
     if (selectedBeachId && mapRef.current) {

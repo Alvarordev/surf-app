@@ -17,22 +17,41 @@ interface TideChartProps {
 }
 
 export default function TideChart({ hourlyForecast }: TideChartProps) {
-  const tideData = useMemo(() => {
-    return hourlyForecast.map((h) => ({
-      time: new Date(h.time).toLocaleTimeString([], {
-        hour: '2-digit',
-      }),
-      height: parseFloat((h.tideHeight + 0.45).toFixed(2)),
-    }))
-  }, [hourlyForecast])
-
-  const currentHourLabel = useMemo(() => {
+  const { tideData, currentHourLabel } = useMemo(() => {
     const now = new Date()
-    now.setMinutes(0, 0, 0)
-    return now.toLocaleTimeString([], {
+    const currentHour = now.getHours()
+
+    // Periodos fijos: 12 AM - 11 AM (0-11) y 12 PM - 11 PM (12-23)
+    const isFirstPeriod = currentHour < 12
+    const startHour = isFirstPeriod ? 0 : 12
+    const endHour = isFirstPeriod ? 11 : 23
+
+    const displayData = hourlyForecast
+      .filter((h) => {
+        const hDate = new Date(h.time)
+        const hour = hDate.getHours()
+        // Aseguramos que sea del día de hoy local
+        const isToday = hDate.toDateString() === now.toDateString()
+        return isToday && hour >= startHour && hour <= endHour
+      })
+      .map((h) => ({
+        time: new Date(h.time).toLocaleTimeString([], {
+          hour: '2-digit',
+          hour12: true,
+        }),
+        height: parseFloat((h.tideHeight + 0.45).toFixed(2)),
+      }))
+
+    const referenceNow = new Date(now)
+    referenceNow.setMinutes(0, 0, 0)
+
+    const currentLabel = referenceNow.toLocaleTimeString([], {
       hour: '2-digit',
+      hour12: true,
     })
-  }, [])
+
+    return { tideData: displayData, currentHourLabel: currentLabel }
+  }, [hourlyForecast])
 
   if (!tideData || !tideData.length) return null
 
@@ -58,7 +77,8 @@ export default function TideChart({ hourlyForecast }: TideChartProps) {
             dataKey="time"
             axisLine={false}
             tickLine={false}
-            tick={{ fontSize: 10, fontWeight: 'bold', fill: '#94a3b8' }}
+            tick={{ fontSize: 9, fontWeight: 'bold', fill: '#94a3b8' }}
+            interval={1}
           />
           <YAxis
             axisLine={false}
@@ -73,7 +93,12 @@ export default function TideChart({ hourlyForecast }: TideChartProps) {
               boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
               fontWeight: 'bold',
             }}
-            labelStyle={{ color: '#64748b' }}
+            labelStyle={{ color: '#64748b', fontSize: '14px' }}
+            formatter={(value: any, name: any) => {
+              if (name === 'height') {
+                return [`${value} m`]
+              }
+            }}
           />
           <Area
             type="monotone"
@@ -85,15 +110,12 @@ export default function TideChart({ hourlyForecast }: TideChartProps) {
           />
           <ReferenceLine
             x={currentHourLabel}
-            stroke="#ef4444"
-            strokeDasharray="3 3"
+            stroke="#060606"
+            strokeDasharray="8 4"
             strokeWidth={2}
           />
         </AreaChart>
       </ResponsiveContainer>
-      {/* <p className="text-[9px] text-center text-slate-400 font-bold mt-2 uppercase tracking-tight">
-        * Datos MSL con offset local (+0.45m). No apto para navegación.
-      </p> */}
     </div>
   )
 }

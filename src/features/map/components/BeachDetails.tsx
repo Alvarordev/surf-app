@@ -10,7 +10,7 @@ import {
 } from 'lucide-react'
 import { WavesIcon } from '@/assets/WavesIcon'
 import type { SurfConditionObject } from '../types/surf'
-import { type BeachStatusInfo } from '@/utils/beachStatus'
+import { type SurfCategory } from '@/utils/beachStatus'
 import type { SurfConditionData } from '@/features/surf-details/surfSlice'
 import BeachDrawer from './BeachDrawer'
 
@@ -58,7 +58,12 @@ const MetricItem = ({
 interface BeachDetailsProps {
   beach: SurfConditionData & {
     currentConditions: SurfConditionObject | null
-    status: BeachStatusInfo | null
+    status: {
+      status: SurfCategory
+      label: string
+      color: string
+      windType: string
+    } | null
     hourlyForecast: SurfConditionObject[]
     dailyForecast: SurfConditionObject[]
   }
@@ -110,11 +115,19 @@ export default function BeachDetails({ beach }: BeachDetailsProps) {
                   <h2 className="text-lg md:text-xl font-black text-slate-800 tracking-tighter leading-none">
                     {beach.name}
                   </h2>
+                  {beach.status && (
+                    <span
+                      className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full text-white inline-block mt-1"
+                      style={{ backgroundColor: beach.status.color }}
+                    >
+                      {beach.status.label} • {beach.status.windType}
+                    </span>
+                  )}
                 </div>
                 <Bookmark className="h-5 w-5 text-slate-200 cursor-pointer hover:text-primary transition-colors" />
               </div>
 
-              <div className="flex justify-between md:justify-between items-center pr-1 md:px-1 bg-slate-50/50 py-2 md:py-3 rounded-2xl border border-slate-50">
+              <div className="flex justify-between md:justify-between items-center pr-1 md:px-1 py-2 md:py-3">
                 <MetricItem
                   icon={Waves}
                   label="Altura"

@@ -1,4 +1,4 @@
-import type { BeachStatusInfo } from "@/utils/beachStatus"
+import type { SurfCategory } from "@/utils/beachStatus"
 
 export interface SurfConditionObject {
   time: string
@@ -25,5 +25,10 @@ export interface SurfMarkerProps {
   longitude: number
   latitude: number
   label?: string
-  beachStatus?: BeachStatusInfo
+  beachStatus?: {
+    status: SurfCategory
+    label: string
+    color: string
+    windType: string
+  }
 }

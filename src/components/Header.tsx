@@ -23,19 +23,21 @@ export default function Header({ searchTerm, onSearchChange }: HeaderProps) {
     <div className="absolute top-0 left-0 right-0 md:right-auto md:w-102 z-50 pt-2 pb-5 px-0 bg-linear-to-b from-black via-black/80 via-70% to-transparent pointer-events-none">
       <div className="p-6 pb-4 space-y-6 pointer-events-auto">
         <div className="flex items-center">
-          <button
-            onClick={() =>
-              zoneId
-                ? navigate({
-                    to: '/',
-                    search: (prev) => ({ ...prev, view: 'list' }) as any,
-                  })
-                : null
-            }
-            className={`flex-1 transition-opacity ${zoneId ? 'opacity-100' : 'opacity-20 cursor-default'}`}
-          >
-            <ArrowLeft size={26} strokeWidth={3} className="text-white" />
-          </button>
+          <div className="flex-1">
+            <button
+              onClick={() =>
+                zoneId
+                  ? navigate({
+                      to: '/',
+                      search: (prev) => ({ ...prev, view: 'list' }) as any,
+                    })
+                  : null
+              }
+              className={`transition-opacity ${zoneId ? 'opacity-100 cursor-pointer' : 'opacity-20 cursor-default'}`}
+            >
+              <ArrowLeft size={26} strokeWidth={3} className="text-white" />
+            </button>
+          </div>
 
           <div className="text-center shrink-0">
             <h1 className="text-xl font-black text-white tracking-tight">
@@ -48,24 +50,25 @@ export default function Header({ searchTerm, onSearchChange }: HeaderProps) {
             </div>
           </div>
 
-          <button
-            onClick={() => {
-              navigate({
-                search: (prev: any) => ({
-                  ...prev,
-                  view: isMapView ? 'list' : 'map',
-                }),
-              } as any)
-            }}
-            className="md:hidden flex-1 flex justify-end"
-          >
-            {isMapView ? (
-              <List size={24} className="text-white" />
-            ) : (
-              <MapIcon size={24} className="text-white" />
-            )}
-          </button>
-          <div className="hidden md:block w-6" />
+          <div className="flex-1 flex justify-end">
+            <button
+              onClick={() => {
+                navigate({
+                  search: (prev: any) => ({
+                    ...prev,
+                    view: isMapView ? 'list' : 'map',
+                  }),
+                } as any)
+              }}
+              className="md:hidden"
+            >
+              {isMapView ? (
+                <List size={24} className="text-white" />
+              ) : (
+                <MapIcon size={24} className="text-white" />
+              )}
+            </button>
+          </div>
         </div>
 
         <div className="flex gap-3 overflow-x-auto no-scrollbar py-1">

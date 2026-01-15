@@ -1,5 +1,5 @@
 import { WavesIcon } from '@/assets/WavesIcon'
-import type { BeachStatusInfo } from '@/utils/beachStatus'
+import type { SurfCategory } from '@/utils/beachStatus'
 
 interface BeachCardProps {
   label: string
@@ -7,7 +7,12 @@ interface BeachCardProps {
   difficulty: string
   image: string
   isSelected?: boolean
-  status?: BeachStatusInfo
+  status?: {
+    status: SurfCategory
+    label: string
+    color: string
+    windType: string
+  }
   onClick?: () => void
 }
 

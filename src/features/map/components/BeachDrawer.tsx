@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { Waves, Wind, Timer, X, Navigation2, Sun } from 'lucide-react'
 import type { SurfConditionObject } from '../types/surf'
 import {
-  getBeachStatus,
+  getBeachConditions,
   getTideInterpretation,
   getWindColor,
 } from '@/utils/beachStatus'
@@ -30,8 +30,19 @@ export default function BeachDrawer({
 
   const status = useMemo(() => {
     if (!currentConditions) return null
-    return getBeachStatus({ data: currentConditions, exposure: beach.exposure })
-  }, [currentConditions, beach.exposure])
+
+    const nowIndex = hourlyForecast.findIndex(
+      (h) => h.time === currentConditions.time,
+    )
+    const nextTide =
+      hourlyForecast[nowIndex + 1]?.tideHeight ?? currentConditions.tideHeight
+    const isRising = nextTide > currentConditions.tideHeight
+
+    return getBeachConditions({
+      data: currentConditions,
+      tideIsRising: isRising,
+    })
+  }, [currentConditions, hourlyForecast])
 
   const tideInfo = useMemo(() => {
     if (!currentConditions || hourlyForecast.length < 2) return null
@@ -280,7 +291,7 @@ export default function BeachDrawer({
 
             <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-40">
               <div className="flex justify-between items-center mb-1 h-5">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                   Marea
                 </p>
                 <span className="text-xs font-bold text-slate-800">
@@ -291,7 +302,7 @@ export default function BeachDrawer({
               <div className="flex-1 w-full min-h-0 relative -ml-2 -mb-2">
                 <TideChart
                   currentConditions={currentConditions}
-                  hourlyForecast={beach.hourlyForecast}
+                  hourlyForecast={dailyForecast}
                 />
               </div>
             </div>
@@ -306,25 +317,7 @@ export default function BeachDrawer({
               Recomendaciones
             </h4>
             <p className="text-sm font-bold leading-relaxed text-slate-200">
-              Condición{' '}
-              <span className="text-primary italic uppercase">
-                {status?.label}
-              </span>
-              . Hay olas de{' '}
-              <span className="text-white">
-                {(currentConditions.waveHeight * beach.exposure).toFixed(1)}m
-              </span>{' '}
-              con un periodo pico de{' '}
-              <span className="text-white">
-                {currentConditions.wavePeriod.toFixed(1)}s
-              </span>
-              .
-              {status?.windType === 'OFFSHORE'
-                ? ' El viento offshore está peinando las olas perfectamente.'
-                : ` El viento ${status?.windType} de ${currentConditions.windSpeed.toFixed(0)} km/h está afectando la formación.`}
-              {tideInfo?.trend === 'Bajando'
-                ? ' Con la marea bajando, los bancos de arena deberían empezar a definir mejor la pared.'
-                : ' La marea subiendo puede hacer que la ola pierda fuerza en algunas secciones.'}
+              {status?.description}
             </p>
           </section>
 
@@ -333,10 +326,12 @@ export default function BeachDrawer({
               Proximas horas
             </h3>
             <div className="flex gap-3 overflow-x-auto pb-6 scrollbar-hide -mx-6 px-6">
-              {dailyForecast.map((hour, index) => {
-                const hourStatus = getBeachStatus({
+              {hourlyForecast.map((hour, index) => {
+                const hourStatus = getBeachConditions({
                   data: hour,
-                  exposure: beach.exposure,
+                  tideIsRising:
+                    (hourlyForecast[index + 1]?.tideHeight || hour.tideHeight) >
+                    hour.tideHeight,
                 })
                 const date = new Date(hour.time)
                 const hourStr = date.toLocaleTimeString([], {

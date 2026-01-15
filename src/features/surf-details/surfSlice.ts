@@ -2,8 +2,12 @@ import { SURF_SPOTS, type SurfSpot } from '@/features/map/data/spots'
 import { fetchWeatherData, fetchMarineData } from '@/api/openMeteo'
 import { createAsyncThunk, createSlice, createSelector } from '@reduxjs/toolkit'
 import type { SurfConditionObject } from '@/features/map/types/surf'
-import { getBeachStatus, type BeachStatusInfo } from '@/utils/beachStatus'
-import { startOfHour } from 'date-fns'
+import {
+  getBeachConditions,
+  getTideInterpretation,
+  type SurfCategory,
+} from '@/utils/beachStatus'
+import { startOfHour, addHours } from 'date-fns'
 
 export interface SurfConditionData extends SurfSpot {
   conditions: {
@@ -66,9 +70,9 @@ export const getConditionsByZone = createAsyncThunk(
     const cachedZone = state.surf.zones?.[zoneId]
 
     const now = Date.now()
-    const HORA = 60 * 60 * 1000
+    const SEIS_HORAS = 6 *60 * 60 * 1000
 
-    if (cachedZone && now - cachedZone.lastUpdated < HORA) {
+    if (cachedZone && now - cachedZone.lastUpdated < SEIS_HORAS) {
       console.log(
         `⚡ Usando datos cacheados para la zona [${zoneId}] (Ahorrando API Calls)`,
       )
@@ -130,24 +134,48 @@ export const { clearCache } = surfSlice.actions
 const selectZones = (state: { surf: SurfState }) => state.surf.zones
 
 export const selectSpotsWithStatus = createSelector([selectZones], (zones) => {
-  const currentHourISO = startOfHour(new Date()).toISOString()
+  const now = new Date()
+  const currentHourISO = startOfHour(now).toISOString()
+  const nextHourISO = startOfHour(addHours(now, 1)).toISOString()
+
   const statuses: Record<
     string,
-    { condition: SurfConditionObject; status: BeachStatusInfo }
+    {
+      condition: SurfConditionObject
+      status: {
+        status: SurfCategory
+        label: string
+        color: string
+        windType: string
+      }
+      tide: {
+        value: number
+        label: string
+        trend: string
+        isRising: boolean
+      }
+    }
   > = {}
 
   SURF_SPOTS.forEach((spot) => {
     const zoneData = zones[spot.zoneId]
     const spotData = zoneData?.spots[spot.id]
     const currentConditions = spotData?.conditions.hours[currentHourISO]
+    const nextConditions = spotData?.conditions.hours[nextHourISO]
 
     if (currentConditions) {
+      const tideData = getTideInterpretation(
+        currentConditions.tideHeight,
+        nextConditions?.tideHeight ?? currentConditions.tideHeight,
+      )
+
       statuses[spot.id] = {
         condition: currentConditions,
-        status: getBeachStatus({
+        status: getBeachConditions({
           data: currentConditions,
-          exposure: spot.exposure,
+          tideIsRising: tideData.isRising,
         }),
+        tide: tideData,
       }
     }
   })

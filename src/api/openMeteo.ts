@@ -11,36 +11,35 @@ export const fetchWeatherData = async (lat: number, lng: number) => {
       'wind_direction_10m',
       'uv_index',
     ],
+    models: ["kma_seamless", "best_match"],
     timezone: 'America/New_York',
     forecast_days: 1,
   }
   const url = 'https://api.open-meteo.com/v1/forecast'
   const responses = await fetchWeatherApi(url, params)
 
-  const response = responses[0]
-
-  // const utcOffsetSeconds = response.utcOffsetSeconds()
-
-  const hourly = response.hourly()!
+  const res0 = responses[0].hourly()!
+  const res1 = responses[1].hourly()!
 
   const weatherData = {
     hourly: {
       time: Array.from(
         {
           length:
-            (Number(hourly.timeEnd()) - Number(hourly.time())) /
-            hourly.interval(),
+            (Number(res1.timeEnd()) - Number(res1.time())) /
+            res1.interval(),
         },
         (_, i) =>
-          new Date((Number(hourly.time()) + i * hourly.interval()) * 1000),
+          new Date((Number(res1.time()) + i * res1.interval()) * 1000),
       ),
-      temperature_2m: hourly.variables(0)!.valuesArray()!,
-      relative_humidity_2m: hourly.variables(1)!.valuesArray()!,
-      wind_speed_10m: hourly.variables(2)!.valuesArray()!,
-      wind_direction_10m: hourly.variables(3)!.valuesArray()!,
-      uv_index: hourly.variables(4)!.valuesArray()!,
+      temperature_2m: res1.variables(0)!.valuesArray()!,
+      relative_humidity_2m: res1.variables(1)!.valuesArray()!,
+      wind_speed_10m: res0.variables(2)!.valuesArray()!,
+      wind_direction_10m: res1.variables(3)!.valuesArray()!,
+      uv_index: res1.variables(4)!.valuesArray()!,
     },
   }
+
 
   const hours = weatherData.hourly.time.map((time, i) => {
     return {
